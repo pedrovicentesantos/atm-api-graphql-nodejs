@@ -1,0 +1,22 @@
+{
+  "name": "challenge-funcional-health",
+  "version": "1.0.0",
+  "description": "API GraphQL em Node.js para o Challenge proposto para a vaga na empresa Funcional Heath\u001b[D\u001b[Dlth",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start" : "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.6.0"
+  }
+}
