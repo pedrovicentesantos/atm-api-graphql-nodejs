@@ -27,28 +27,31 @@ const providers = {
 
 const resolvers = {
   saldo({conta}) {
-    return contaExiste(conta) || {"mensagem":"Conta não existe"}
+    return contaExiste(conta) || {"mensagem":"Erro: Conta não existe"}
   },
   sacar({conta,valor}) {
-    if (contaExiste(conta)) {
-      const { saldo } = providers.contas.find(item => item.conta === Number(conta));
-      if (valor <= saldo) {
-        providers.contas.map(item => {
-          if (item.conta === Number(conta)) {
-            item.saldo = item.saldo - valor;
-            item.mensagem = "Saque realizado com sucesso"
-          }
-        })
-      } else {
-        providers.contas.map(item => {
-          if (item.conta === Number(conta)) {
-            item.mensagem = "Erro: Saldo insuficiente para saque";
-          }
-        });
+    if (valor > 0) {
+      if (contaExiste(conta)) {
+        const { saldo } = providers.contas.find(item => item.conta === Number(conta));
+        if (valor <= saldo) {
+          providers.contas.map(item => {
+            if (item.conta === Number(conta)) {
+              item.saldo = item.saldo - valor;
+              item.mensagem = "Saque realizado com sucesso"
+            }
+          })
+        } else {
+          providers.contas.map(item => {
+            if (item.conta === Number(conta)) {
+              item.mensagem = "Erro: Saldo insuficiente para saque";
+            }
+          });
+        }
+        return providers.contas.find(item => item.conta === Number(conta));  
       }
-      return providers.contas.find(item => item.conta === Number(conta));  
+      return {"mensagem":"Erro: Conta não existe"}
     }
-    return {"mensagem":"Conta não existe"}
+    return {"mensagem":"Erro: Não é possível sacar valores negativos"}
     
   },
   depositar({conta,valor}) {
@@ -69,7 +72,7 @@ const resolvers = {
       }
       return providers.contas.find(item => item.conta === Number(conta));
     }
-    return {"mensagem":"Conta não existe"}
+    return {"mensagem":"Erro: Conta não existe"}
   }
 };
 
