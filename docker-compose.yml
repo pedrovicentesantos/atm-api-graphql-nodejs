@@ -11,9 +11,6 @@ services:
   mongo:
     container_name: graphqlmongo
     image: mongo
-    volumes:
-      # - ./data:/data/db Para Linux
-      - data:/data/db #Para Windows
     ports:
       - "27017:27017"
   admin-mongo:
@@ -26,5 +23,3 @@ services:
       - DB_HOST=mongo
     links:
       - mongo
-volumes: 
-  data:
