@@ -188,7 +188,120 @@ describe('API GraphQL', function() {
     });
   });
   describe('Mutation sacar', function(){
-    
-  })
+    it('should return an Object', function(done) {
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        const result = res.body.data;
+        assert.isObject(result);
+        done();
+      })
+    });
+    it('should return an Object with keys=[conta,saldo,mensagem]', function(done) {
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        const keys = Object.keys(res.body.data.sacar);
+        const expected = ['conta','saldo','mensagem'];
+        assert.deepEqual(keys,expected);
+        done();
+      })
+    });
+    it('should return mensagem = Erro: Conta não existe when conta is not on DB', function(done) {
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 543, valor:100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        const mensagem = res.body.data.sacar.mensagem;
+        const expected = "Erro: Conta não existe";
+        assert.equal(mensagem,expected);
+        done();
+      })
+    });
+    it('should return mensagem = Erro: Não é possível sacar valores negativos when valor < 0', function(done){
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:-100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        const mensagem = res.body.data.sacar.mensagem;
+        const expected = "Erro: Não é possível sacar valores negativos";
+        assert.equal(mensagem,expected);
+        done();
+      })
+    });
+    it('should return typeof(conta)==typeof(saldo)==Number and typeof(mensagem)==String when conta is on DB', function(done){
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        assert.isNumber(res.body.data.sacar.conta);
+        assert.isNumber(res.body.data.sacar.saldo);
+        assert.isString(res.body.data.sacar.mensagem);
+        done();
+      })
+    });
+    it('should return mensagem = Saque realizado com sucesso on success', function(done){
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        const mensagem = res.body.data.sacar.mensagem;
+        const expected = "Saque realizado com sucesso";
+        assert.equal(mensagem,expected);
+        done();
+      })
+    });
+    it('should return null for conta and saldo when conta is not on DB', function(done){
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 543, valor:100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        assert.isNull(res.body.data.sacar.conta);
+        assert.isNull(res.body.data.sacar.saldo);
+        done();
+      })
+    });
+    it('should return null for conta and saldo when valor < 0', function(done){
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:-100) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        assert.isNull(res.body.data.sacar.conta);
+        assert.isNull(res.body.data.sacar.saldo);
+        done();
+      })
+    });
+    it('should return mensagem = Erro: Saldo insuficiente para saque when valor > saldo', function(done){
+      request.post('/')
+      .send({ query: 'mutation{ sacar(conta: 54321, valor:2000000000) { conta saldo mensagem } }'})
+      .end((err,res) => {
+        if (err) {
+          return done(err)
+        }
+        const mensagem = res.body.data.sacar.mensagem;
+        const expected = "Erro: Saldo insuficiente para saque";
+        assert.equal(mensagem,expected);
+        done();
+      })
+    });
+  });
 });
 
