@@ -1,17 +1,17 @@
 const ContaCorrenteModel = require('./models/ContaCorrente');
 
-async function populateDB() {
+function populateDB() {
   const contas = [54321,12345,56789];
-  for (item of contas) {
-    let conta = await ContaCorrenteModel.findOne({conta:item});
+  contas.forEach(async (value) => {
+    let conta = await ContaCorrenteModel.findOne({conta:value});
     if (!conta) {
       await ContaCorrenteModel.create(
-        {conta:item,
+        {conta:value,
         saldo:260,
         mensagem:""}
       )  
     }
-  }
+  });
 }
 
 module.exports = {
