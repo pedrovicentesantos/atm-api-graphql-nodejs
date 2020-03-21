@@ -155,7 +155,13 @@ Cada uma das requisições retorna o que foi pedido no challenge e lida com erro
 ## Testes Unitários
 O projeto também conta com testes unitários para verificar o funcionamento da API e das funções que acessam e alteram o Banco de dados.
 
-Para rodar os testes basta usar o comando:
+Primeiro deve-se instalar as dependências para poder realizar os testes:
+
+```shell
+  npm install
+```
+
+Feito isto, para rodar os testes basta usar o comando:
 
 ```shell
   npm test
