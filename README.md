@@ -100,20 +100,22 @@ Pode-se acessar o MongoDB Admin para conferir se a base de dados está funcionan
 
 Para criar uma conexão para acessar a base dados basta seguir os seguintes passos:
 
-1. Escolher um nome para conexão, por exemplo 'conn'.
-2. Usar a string para conexão: 'mongodb://mongo:27017/db'
-3. Clicar em 'connections'
-4. Conectar a conexão criada anteriormente
-5. Acessar a collection 'contas' que se encontra dentro da base de dados 'db'
+1. Escolher um nome para conexão, por exemplo `conn`.
+2. Usar a string para conexão: `mongodb://mongo:27017/db`
+3. Clicar em `Connections`
+4. Clicar em `Connect` em `Actions` para conectar a conexão criada anteriormente
+5. Acessar a collection `contas` que se encontra dentro da base de dados `db`
 
 ## Funcionamento
-Ao usar a API pela primeira vez, o Banco de Dados é inicializado com 3 contas correntes para permitir realizar testes. 
+Ao usar a API pela primeira vez, o Banco de Dados é inicializado com 3 contas correntes para permitir a realização de testes. 
 
 Os números dessas contas são: `54321`, `12345` e `56789`. As 3 contas possuem saldo de `260` inicialmente.
 
 O projeto utiliza a interface gráfica `graphiql` para poder testar e utilizar a API.
 
-As requisões que podem ser feitas são as seguintes:
+As requisições que podem ser feitas são as seguintes:
+
+- Sacar um valor:
 
 ```shell
   mutation {
@@ -125,6 +127,8 @@ As requisões que podem ser feitas são as seguintes:
   }
 ```
 
+- Depositar um valor:
+
 ```shell
   mutation {
     depositar(conta: 54321, valor: 200) {
@@ -135,6 +139,8 @@ As requisões que podem ser feitas são as seguintes:
   }
 ```
 
+- Checar saldo da conta: 
+
 ```shell
   query {
     saldo(conta: 54321) {
@@ -144,7 +150,7 @@ As requisões que podem ser feitas são as seguintes:
   }
 ```
 
-Cada uma das requisões retorna o que foi pedido no challenge e lida com erros como tentar acessar contas que não estão na base de dados, sacar valores maiores que o saldo, depositar valores negativos, entre outros possíveis cenários.
+Cada uma das requisições retorna o que foi pedido no challenge e lida com erros como tentar acessar contas que não estão na base de dados, sacar valores maiores que o saldo, depositar valores negativos, entre outros possíveis cenários.
 
 ## Testes Unitários
 O projeto também conta com testes unitários para verificar o funcionamento da API e das funções que acessam e alteram o Banco de dados.
