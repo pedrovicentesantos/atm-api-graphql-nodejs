@@ -20,13 +20,13 @@ Para utilizar o projeto é necessário ter o Docker e Docker Compose instalado. 
 Para começar a utilizar deve-se clonar o repositório:
 
 ```shell
-git clone https://github.com/pedrovicentesantos/challenge-funcional-health.git
-cd challenge-funcional-health
+git clone https://github.com/pedrovicentesantos/atm-api-graphql-nodejs.git
+cd atm-api-graphql-nodejs
 ```
 
 É importante manter a seguinte estrutura dos arquivos. Caso contrário, o `docker-compose` não irá encontrar os arquivos e não vai funcionar.
   
-    challenge-funcional-health  
+    atm-api-graphql-nodejs  
     └── models
     │    └── ContaCorrente.js
     └── test
